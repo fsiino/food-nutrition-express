@@ -27,7 +27,7 @@ const FoodSchema = new Schema({
     type: String
   },
   value: {
-    type: String
+    type: Number
   },
   gm: {
     type: String
