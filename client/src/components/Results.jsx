@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-const Main = () => {
+const Results = () => {
   const [loadedFoods, setLoadedFoods] = useState([]);
 
   useEffect(() => {
@@ -11,27 +11,24 @@ const Main = () => {
       }
     })
       .then(res => res.json())
-      .then(data => {
-        // console.log(data);
-        let output = data;
-        setLoadedFoods(output);
-      })
+      .then(data => setLoadedFoods(data))
       .catch(err => console.log(err))
-  },[])
+  },[]);
+
+  if (!loadedFoods) {
+    return <div>'Loading...'</div>
+  }
 
   return (
     <div>
-      <ul>
-        {loadedFoods.map(food => {
-          return (
-            <li key={food.ndbno} > 
-              {food.name}
-            </li>
-          )
-        })}
-      </ul>
+      <div>
+        {loadedFoods.map(food => (
+            <li>{food.name}</li>
+        )
+        )}
+      </div>
     </div>
   )
 }
 
-export default Main;
+export default Results;
