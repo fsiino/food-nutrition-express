@@ -1,13 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import React, { Component, useState, useEffect } from 'react';
+import FormField from './FormField';
 
-const Form = () => {
-  const [formFields, setFormFields] = useState([])
+class Form extends Component {
+  constructor() {
+    super();
+    this.state = {
+      formFields: [
+        
+      ]
+    }
+  }
 
-  return (
-    <div>
-      test
-    </div>
-  )
+  handleSubmit(e) {
+    e.preventDefault();
+  }
+
+  render() {
+    return (
+      <form>
+        <FormField />
+      </form>
+    )
+  }
 }
 
 export default Form;
+
+
+
+  // const [formFields, setFormFields] = useState([])
+
+  // const handleSubmit = e => {
+  //   e.preventDefault();
+  // }

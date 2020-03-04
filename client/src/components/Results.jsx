@@ -23,7 +23,7 @@ const Results = () => {
     <div>
       <div>
         {loadedFoods.map(food => (
-            <li>{food.name}</li>
+            <li key={food.ndbno}>{food.name}</li>
         )
         )}
       </div>
