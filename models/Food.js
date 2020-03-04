@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const FoodSchema = ({
+const FoodSchema = new Schema({
   ndbno: {
     type: String
   },
@@ -32,6 +32,7 @@ const FoodSchema = ({
   gm: {
     type: String
   },
+
 })
 
 module.exports = Food = mongoose.model('food', FoodSchema)
