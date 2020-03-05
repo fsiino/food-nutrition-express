@@ -1,7 +1,7 @@
 import React, { Component, useState, useEffect } from 'react';
-import Fieldset from './Fieldset';
 import '../style/form.css';
 import axios from 'axios';
+import Results from './Results'
 
 class Form extends Component {
   constructor() {
@@ -20,6 +20,23 @@ class Form extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
+  componentDidMount() {
+    axios.get(`/api/foods/`)
+      .then(res => {
+        this.setState({
+          results: res.data
+        })
+      })
+      .catch(err => alert(err)) 
+  }
+
+  clearAllFields() {
+    let fieldsets = this.state.fieldsets.slice(0,1);
+    this.setState({
+      fieldsets: [...fieldsets]
+    })
+  }
+
   addNewFieldset(e) {
     e.preventDefault(); 
     let fieldsets = this.state.fieldsets.slice();
@@ -34,20 +51,19 @@ class Form extends Component {
   }
 
   handleSubmit(e) {
+    e.preventDefault();
     const fieldsets = this.state.fieldsets;
     for (let i = 0; i < fieldsets.length; i++) {
       const fieldset = fieldsets[i];
+      if (!fieldset.nutrient || !fieldset.min || !fieldset.max) continue;
       axios.get(`/api/foods/${fieldset.nutrient}/${fieldset.min}/${fieldset.max}`)
-        .then(results => {
+        .then(res => {
           this.setState({
-            results: results.data
+            results: res.data
           })
-          console.log(this.state.results)
         })
         .catch(err => console.log(err)) //TODO: handle invalid/blank requests
-        // .then(data => console.log(data))
     }
-    e.preventDefault();
   }
 
   handleChange(field, i) {
@@ -61,10 +77,14 @@ class Form extends Component {
   }
 
   render() {
+
+    const foodResults = this.state.results ? this.state.results.map((result, i) => <li key={i}>{result.name}</li>) : null
+
     return (
       <>
         <form onSubmit={this.handleSubmit}>
           <button onClick={(e) => this.addNewFieldset(e)}>New Filter</button>
+          <button onClick={() =>this.clearAllFields()}>Clear All Filters</button>
           <div className="fieldsets-wrapper"> 
             {this.state.fieldsets.map((fieldset, i) => {
               return (
@@ -96,7 +116,7 @@ class Form extends Component {
           {/* TODO: Return key doesnt submit, but rather hits New filter btn */}
         </form>
         <div>
-          {this.state.results ? this.state.results.map(result => <li>{result.name}</li>) : 'results here..'}
+          <Results loadedFoods={foodResults} />
         </div>
       </>
     )

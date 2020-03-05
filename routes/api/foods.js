@@ -26,7 +26,7 @@ router.get('/:nutrient/:min?/:max?', (req, res) => {
   })
     .sort({ name: 1 })
     .then(foods => res.json(foods))
-    .catch(err => res.status(404).json({ nofoodsfound: 'No foods found with the specified ingredient parameters' }));
+    .catch(err => res.status(404).json({ nofoodsfound: 'No foods found with the specified ingredient parameter(s)' }));
 });
 
 module.exports = router;
