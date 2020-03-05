@@ -1,0 +1,26 @@
+body {
+  background-color: #f7f7f7;
+}
+
+h1, h3 {
+  text-align: center;
+}
+
+.buttons-wrapper {
+  text-align: center;
+}
+
+.app-container {
+  width: 60%;
+  margin: auto;
+}
+
+.fieldsets-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.fieldsets-wrapper {
+  margin: 10px 0 10px 0;
+}

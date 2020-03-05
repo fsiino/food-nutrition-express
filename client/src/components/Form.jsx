@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../style/form.css';
+import '../style/style.css';
 import axios from 'axios';
 import Results from './Results';
 
@@ -34,13 +34,12 @@ const Form = () => {
     setFieldsets(fieldsetsCopy)
   }
 
-  const removeFieldset = (e, fieldsetNum) => { //TODO: Not removing properly
+  const removeFieldset = (e, fieldsetNum) => { //TODO: Not removing or inputting properly
     let fieldsetsCopy = fieldsets.slice();
     if (fieldsetNum !== -1) fieldsetsCopy.splice(fieldsetNum, 1); 
     setFieldsets(fieldsetsCopy)
   }
 
-  //TODO: Handle data with '--' value
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true)
@@ -83,7 +82,7 @@ const Form = () => {
       results.map((result, i) => 
       <li key={i}>{result.name} 
         <ul>{result.nutrients.map((nutrient, j) => 
-          <li key={j}>{nutrient.nutrient} - {nutrient.value}{nutrient.unit}</li>)}
+          <li key={j}>{nutrient.nutrient}: {nutrient.value}{nutrient.unit}</li>)}
         </ul>
       </li>) 
     : null
@@ -91,8 +90,10 @@ const Form = () => {
 
   return (
     <>
-      <button onClick={() => addNewFieldset()}>Add Another Filter</button>
-      <button onClick={() => clearAllFields()}>Clear All Fieldsets</button>
+      <div className="buttons-wrapper">
+        <button onClick={() => addNewFieldset()}>Add Another Filter</button>
+        <button onClick={() => clearAllFields()}>Clear All Fieldsets</button>
+      </div>
       <form onSubmit={handleSubmit}>
         <div className="fieldsets-wrapper"> 
           {fieldsets.map((fieldset, i) => {
@@ -104,18 +105,21 @@ const Form = () => {
                   <input required type="text"
                     value={fieldsets[i].nutrient}
                     onChange={handleChange("nutrient", i)} 
+                    onKeyPress={e => e.key === 'Enter' ? handleSubmit(e) : null }
                   />
                 </label>
                 <label>Minimum:
                   <input type="text"
                     value={fieldsets[i].min}
                     onChange={handleChange("min", i)}
+                    onKeyPress={e => e.key === 'Enter' ? handleSubmit(e) : null }
                   />
                 </label>
                 <label>Maximum:
                   <input type="text"
                     value={fieldsets[i].max}
                     onChange={handleChange("max", i)}
+                    onKeyPress={e => e.key === 'Enter' ? handleSubmit(e) : null }
                   />
                 </label>
                 {i > 0 ? <input type="submit" onClick={(e, i) => removeFieldset(e,i)} value="Remove Fieldset" /> : null}
@@ -123,9 +127,11 @@ const Form = () => {
             )
           })}
         </div>
-        <input type="submit" value="Submit Query" /> 
-        <button onClick={handleClearResults}>Clear Results</button>
-        {/* TODO: Return key doesnt submit, but rather hits New filter btn */}
+        <div className="buttons-wrapper">
+          <input type="submit" value="Submit Query" /> 
+          <button onClick={handleClearResults}>Clear Results</button>
+          {/* TODO: Return key doesnt submit, but rather hits New filter btn */}
+        </div>
       </form>
       <div>
         <Results loadedFoods={loadedFoods} isLoading={isLoading} notFound={notFound} errors={errors} />

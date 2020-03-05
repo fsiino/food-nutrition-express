@@ -17,7 +17,6 @@ router.get('/:ndbno', (req, res) => {
     .catch(err => res.status(404).json({ nofoodfound: 'No food found with that id' }))
 });
 
-//TODO: need to check for inclusion of nutrient search param in document.
 router.get('/:nutrient/min=:min?&max=:max?', (req, res) => {
   let nutrient = req.params.nutrient;
   // Creates a regex of: /SomeStringToFind/i 
