@@ -16,22 +16,12 @@ class Form extends Component {
       ],
       results: []
     }
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-  }
-
-  componentDidMount() {
-    axios.get(`/api/foods/`)
-      .then(res => {
-        this.setState({
-          results: res.data
-        })
-      })
-      .catch(err => alert(err)) 
   }
 
   clearAllFields() {
     let fieldsets = this.state.fieldsets.slice(0,1);
+    for (let key in fieldsets[0]) fieldsets[0][key] = '';
     this.setState({
       fieldsets: [...fieldsets]
     })
@@ -55,14 +45,19 @@ class Form extends Component {
     const fieldsets = this.state.fieldsets;
     for (let i = 0; i < fieldsets.length; i++) {
       const fieldset = fieldsets[i];
-      if (!fieldset.nutrient || !fieldset.min || !fieldset.max) continue;
-      axios.get(`/api/foods/${fieldset.nutrient}/${fieldset.min}/${fieldset.max}`)
+      let nutrient = fieldset.nutrient;
+      let min = fieldset.min;
+      let max = fieldset.max;
+      if (!nutrient) continue;
+      if (!min) min = 0;
+      if (!max) max = 1000;
+      axios.get(`/api/foods/${nutrient}/min=${min}&max=${max}`)
         .then(res => {
           this.setState({
             results: res.data
           })
         })
-        .catch(err => console.log(err)) //TODO: handle invalid/blank requests
+        .catch(err => console.log(err)) //TODO: handle invalid/blank requests e.g. nothing found
     }
   }
 
@@ -82,7 +77,7 @@ class Form extends Component {
 
     return (
       <>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={(e) => this.handleSubmit(e)}>
           <button onClick={(e) => this.addNewFieldset(e)}>New Filter</button>
           <button onClick={() =>this.clearAllFields()}>Clear All Filters</button>
           <div className="fieldsets-wrapper"> 
@@ -111,8 +106,7 @@ class Form extends Component {
               )
             })}
           </div>
-          {/* <input type="submit" value="Submit Query" />  */}
-          <button onClick={this.handleSubmit}>Submit</button>
+          <input type="submit" value="Submit Query" /> 
           {/* TODO: Return key doesnt submit, but rather hits New filter btn */}
         </form>
         <div>

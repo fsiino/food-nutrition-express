@@ -17,10 +17,11 @@ router.get('/:ndbno', (req, res) => {
     .catch(err => res.status(404).json({ nofoodfound: 'No food found with that id' }))
 });
 
-router.get('/:nutrient/:min?/:max?', (req, res) => {
+router.get('/:nutrient/min=:min?&max=:max?', (req, res) => {
   let nutrient = req.params.nutrient;
-  let min = req.params.min; //TODO: make these optional on backend route
-  let max = req.params.max;
+  //TODO: make these optional on backend route
+  let min = req.params.min 
+  let max = req.params.max 
   Food.find({
     "nutrients": { $elemMatch: { nutrient: nutrient, value: { $gt: min, $lte: max } } }
   })
