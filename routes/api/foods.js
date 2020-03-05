@@ -19,7 +19,6 @@ router.get('/:ndbno', (req, res) => {
 
 router.get('/:nutrient/min=:min?&max=:max?', (req, res) => {
   let nutrient = req.params.nutrient;
-  //TODO: make these optional on backend route
   let min = req.params.min 
   let max = req.params.max 
   Food.find({
