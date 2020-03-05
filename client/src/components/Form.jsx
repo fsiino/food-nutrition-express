@@ -59,7 +59,7 @@ const Form = () => {
       if (!min) min = 0;
       if (!max) max = 1000;
       // Prefer axios.get over fetch for dynamic variables during async.
-      axios.get(`/api/foods/${nutrient}/min=${min}&max=${max}`)
+      axios.get(`/api/foods/${nutrient}?min=${min}&max=${max}`)
         .then(res => {
           if (res.data.length) {
             setResults(res.data)
