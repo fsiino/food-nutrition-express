@@ -15,6 +15,10 @@ const Form = () => {
   const [isLoading, setLoading] = useState(false)
   const [errors, setErrors] = useState([])
 
+  const handleEnterKey = e => (
+    e.key === 'Enter' ? handleSubmit(e) : null
+  )
+
   const handleClearResults = e => {
     e.preventDefault();
     setResults([])
@@ -105,21 +109,21 @@ const Form = () => {
                   <input required type="text"
                     value={fieldsets[i].nutrient}
                     onChange={handleChange("nutrient", i)} 
-                    onKeyPress={e => e.key === 'Enter' ? handleSubmit(e) : null }
+                    onKeyPress={handleEnterKey}
                   />
                 </label>
                 <label>Minimum:
                   <input type="text"
                     value={fieldsets[i].min}
                     onChange={handleChange("min", i)}
-                    onKeyPress={e => e.key === 'Enter' ? handleSubmit(e) : null }
+                    onKeyPress={handleEnterKey}
                   />
                 </label>
                 <label>Maximum:
                   <input type="text"
                     value={fieldsets[i].max}
                     onChange={handleChange("max", i)}
-                    onKeyPress={e => e.key === 'Enter' ? handleSubmit(e) : null }
+                    onKeyPress={handleEnterKey}
                   />
                 </label>
                 {i > 0 ? <input type="submit" onClick={(e, i) => removeFieldset(e,i)} value="Remove Fieldset" /> : null}
