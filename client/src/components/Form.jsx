@@ -21,7 +21,7 @@ class Form extends Component {
   }
 
   clearAllFields() {
-    let fieldsets = this.state.fieldsets.slice(0,1);
+    let fieldsets = this.state.fieldsets.slice(0);
     for (let key in fieldsets[0]) fieldsets[0][key] = '';
     this.setState({
       fieldsets: [...fieldsets]
@@ -41,9 +41,9 @@ class Form extends Component {
     })
   }
 
-  removeFieldset(e,fieldsetNum) { //TODO: Remove 1 fieldset at a time
+  removeFieldset(e,fieldsetNum) { //TODO: Not removing properly
     let fieldsetsCopy = this.state.fieldsets.slice();
-    fieldsetsCopy.splice(fieldsetNum, 1);
+    fieldsetsCopy.splice(fieldsetNum, 1); 
     this.setState({
       fieldsets: fieldsetsCopy
     })
@@ -73,7 +73,7 @@ class Form extends Component {
   handleChange(field, fieldsetNum) {
     return e => {
       let fieldsets = this.state.fieldsets.slice();
-      fieldsets[fieldsetNum][field] = e.currentTarget.value;
+      fieldsets[fieldsetNum][field] = e.target.value;
       this.setState({
         fieldsets: fieldsets
       })
@@ -85,9 +85,9 @@ class Form extends Component {
       this.state.results ? 
         this.state.results.map((result, i) => 
         <li key={i}>{result.name} 
-          <ol>{result.nutrients.map((nutrient, j) => 
-            <li key={j}>{nutrient.nutrient}</li>)}
-          </ol>
+          <ul>{result.nutrients.map((nutrient, j) => 
+            <li key={j}>{nutrient.nutrient} - {nutrient.value}{nutrient.unit}</li>)}
+          </ul>
         </li>) 
       : null
     )
@@ -96,6 +96,7 @@ class Form extends Component {
       <>
         <button onClick={(e) => this.addNewFieldset(e)}>New Filter</button>
         <button onClick={() => this.clearAllFields()}>Clear All Filters</button>
+        <button onClick={() => this.setState({ results: [] })}>Clear Results</button>
         <form onSubmit={(e) => this.handleSubmit(e)}>
           <div className="fieldsets-wrapper"> 
             {this.state.fieldsets.map((fieldset, i) => {
