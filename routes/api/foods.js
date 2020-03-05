@@ -17,14 +17,18 @@ router.get('/:ndbno', (req, res) => {
     .catch(err => res.status(404).json({ nofoodfound: 'No food found with that id' }))
 });
 
+// Creates a regex of: /SomeStringToFind/i 
+//TODO: chain queries for multiple search query params
 router.get('/:nutrient/min=:min?&max=:max?', (req, res) => {
+  console.log(req.params[0])
   let nutrient = req.params.nutrient;
-  // Creates a regex of: /SomeStringToFind/i 
   let nutrientRegex = new RegExp(["", nutrient, ""].join(""), "i");
   let min = req.params.min 
   let max = req.params.max 
   Food.find({
-    nutrients: { $elemMatch: { nutrient: nutrientRegex, value: { $gt: min, $lte: max } } }
+    $and: [
+      { nutrients: { $elemMatch: { nutrient: nutrientRegex, value: { $gt: min, $lte: max } } } }
+    ]
   })
     .sort({ name: 1 })
     .then(foods => res.json(foods))

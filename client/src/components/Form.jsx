@@ -32,7 +32,8 @@ const Form = () => {
     setErrors([])
   }
 
-  const addNewFieldset = () => {
+  const addNewFieldset = (e) => {
+    e.preventDefault();
     let fieldsetsCopy = fieldsets.slice();
     fieldsetsCopy.push(newFieldset)
     setFieldsets(fieldsetsCopy)
@@ -95,8 +96,7 @@ const Form = () => {
   return (
     <>
       <div className="buttons-wrapper">
-        <button onClick={() => addNewFieldset()}>Add Another Filter</button>
-        <button onClick={() => clearAllFields()}>Clear All Fieldsets</button>
+        <button onClick={clearAllFields}>Remove All Fieldsets</button>
       </div>
       <form onSubmit={handleSubmit}>
         <div className="fieldsets-wrapper"> 
@@ -126,6 +126,7 @@ const Form = () => {
                     onKeyPress={handleEnterKey}
                   />
                 </label>
+                {i === 0 ? <button onClick={addNewFieldset}>Add Another Filter</button> : null}
                 {i > 0 ? <input type="submit" onClick={(e, i) => removeFieldset(e,i)} value="Remove Fieldset" /> : null}
               </div>
             )

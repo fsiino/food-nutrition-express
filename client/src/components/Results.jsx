@@ -15,7 +15,7 @@ const Results = ({loadedFoods, isLoading, notFound, errors}) => {
   } else {
     return <h3>Results will display here.</h3>
   }
-
+//TODO: make results a grid, food on left, nutrients on right
 }
 
 export default Results;
