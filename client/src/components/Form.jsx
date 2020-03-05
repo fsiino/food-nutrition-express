@@ -14,7 +14,8 @@ class Form extends Component {
           max: ''
         }
       ],
-      results: []
+      results: [],
+      isLoading: false
     }
     this.handleChange = this.handleChange.bind(this);
   }
@@ -40,6 +41,14 @@ class Form extends Component {
     })
   }
 
+  removeFieldset(e,fieldsetNum) { //TODO: Remove 1 fieldset at a time
+    let fieldsetsCopy = this.state.fieldsets.slice();
+    fieldsetsCopy.splice(fieldsetNum, 1);
+    this.setState({
+      fieldsets: fieldsetsCopy
+    })
+  }
+
   handleSubmit(e) {
     e.preventDefault();
     const fieldsets = this.state.fieldsets;
@@ -48,7 +57,7 @@ class Form extends Component {
       let nutrient = fieldset.nutrient;
       let min = fieldset.min;
       let max = fieldset.max;
-      if (!nutrient) continue;
+      if (!nutrient) continue; //TODO: flag that this field is mandatory
       if (!min) min = 0;
       if (!max) max = 1000;
       axios.get(`/api/foods/${nutrient}/min=${min}&max=${max}`)
@@ -61,10 +70,10 @@ class Form extends Component {
     }
   }
 
-  handleChange(field, i) {
+  handleChange(field, fieldsetNum) {
     return e => {
       let fieldsets = this.state.fieldsets.slice();
-      fieldsets[i][field] = e.currentTarget.value;
+      fieldsets[fieldsetNum][field] = e.currentTarget.value;
       this.setState({
         fieldsets: fieldsets
       })
@@ -72,14 +81,22 @@ class Form extends Component {
   }
 
   render() {
-
-    const foodResults = this.state.results ? this.state.results.map((result, i) => <li key={i}>{result.name}</li>) : null
+    const loadedFoods = (
+      this.state.results ? 
+        this.state.results.map((result, i) => 
+        <li key={i}>{result.name} 
+          <ol>{result.nutrients.map((nutrient, j) => 
+            <li key={j}>{nutrient.nutrient}</li>)}
+          </ol>
+        </li>) 
+      : null
+    )
 
     return (
       <>
+        <button onClick={(e) => this.addNewFieldset(e)}>New Filter</button>
+        <button onClick={() => this.clearAllFields()}>Clear All Filters</button>
         <form onSubmit={(e) => this.handleSubmit(e)}>
-          <button onClick={(e) => this.addNewFieldset(e)}>New Filter</button>
-          <button onClick={() =>this.clearAllFields()}>Clear All Filters</button>
           <div className="fieldsets-wrapper"> 
             {this.state.fieldsets.map((fieldset, i) => {
               return (
@@ -102,6 +119,7 @@ class Form extends Component {
                       onChange={this.handleChange("max", i)}
                     />
                   </label>
+                  {i > 0 ? <input type="submit" onClick={(e, i) => this.removeFieldset(e,i)} value="Remove Fieldset" /> : null}
                 </div>
               )
             })}
@@ -110,7 +128,7 @@ class Form extends Component {
           {/* TODO: Return key doesnt submit, but rather hits New filter btn */}
         </form>
         <div>
-          <Results loadedFoods={foodResults} />
+          <Results loadedFoods={loadedFoods} isLoading={this.state.isLoading} />
         </div>
       </>
     )
