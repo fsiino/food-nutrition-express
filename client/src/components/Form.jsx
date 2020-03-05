@@ -1,22 +1,22 @@
 import React, { Component, useState, useEffect } from 'react';
 import '../style/form.css';
 import axios from 'axios';
-import Results from './Results'
+import Results from './Results';
+import { cloneDeep } from 'lodash'
 
 class Form extends Component {
   constructor() {
     super();
     this.state = {
-      fieldsets: [
-        {
-          nutrient: '',
-          min: '',
-          max: ''
-        }
-      ],
+      fieldsets: [{
+        nutrient: '',
+        min: '',
+        max: ''
+      }],
       results: [],
       notFound: false,
-      isLoading: false
+      isLoading: false,
+      errors: []
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,7 +35,8 @@ class Form extends Component {
     let fieldsets = this.state.fieldsets.slice(0,1);
     for (let key in fieldsets[0]) fieldsets[0][key] = '';
     this.setState({
-      fieldsets: [...fieldsets]
+      fieldsets: [...fieldsets],
+      errors: []
     })
   }
 
@@ -66,16 +67,15 @@ class Form extends Component {
     })
     e.preventDefault();
     const fieldsets = this.state.fieldsets;
-    const promises = [];
     for (let i = 0; i < fieldsets.length; i++) {
       const fieldset = fieldsets[i];
       let nutrient = fieldset.nutrient;
       let min = fieldset.min;
       let max = fieldset.max;
-      if (!nutrient) continue; //TODO: flag that this field is mandatory
+      if (!nutrient) continue; 
       if (!min) min = 0;
       if (!max) max = 1000;
-      // Prefer axios.get over fetch for dynamic parameters during async:
+      // Prefer axios.get over fetch for dynamic variables during async.
       axios.get(`/api/foods/${nutrient}/min=${min}&max=${max}`)
         .then(res => {
           if (res.data.length) {
@@ -91,7 +91,7 @@ class Form extends Component {
           })
           }
         })
-        .catch(err => console.log(err)) //TODO: handle invalid/blank requests e.g. nothing found
+        .catch(err => this.setState({ errors: err }));
      }  
   }
 
@@ -119,17 +119,19 @@ class Form extends Component {
 
     return (
       <>
-        <button onClick={() => this.addNewFieldset()}>New Filter</button>
+        <button onClick={() => this.addNewFieldset()}>Add Another Filter</button>
         <button onClick={() => this.clearAllFields()}>Clear All Fieldsets</button>
         <form onSubmit={this.handleSubmit}>
           <div className="fieldsets-wrapper"> 
             {this.state.fieldsets.map((fieldset, i) => {
               return (
-                <div className="fieldset-wrapper">
+                <div className="fieldset-wrapper" 
+                  key={i}
+                >
                   <label>Nutrient:
                     <input required type="text"
                       value={this.state.fieldsets[i].nutrient}
-                      onChange={this.handleChange("nutrient", i)}
+                      onChange={this.handleChange("nutrient", i)} 
                     />
                   </label>
                   <label>Minimum:
@@ -154,7 +156,7 @@ class Form extends Component {
           {/* TODO: Return key doesnt submit, but rather hits New filter btn */}
         </form>
         <div>
-          <Results loadedFoods={loadedFoods} isLoading={this.state.isLoading} notFound={this.state.notFound} />
+          <Results loadedFoods={loadedFoods} isLoading={this.state.isLoading} notFound={this.state.notFound} errors={this.errors} />
         </div>
       </>
     )

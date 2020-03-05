@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
 
-const Results = (props) => {
+const Results = ({loadedFoods, isLoading, notFound, errors}) => {
 
-  if (props.isLoading) {
+  if (isLoading) {
     return <h3>Loading...</h3>
-  } else if (props.loadedFoods.length) {
+  } else if (loadedFoods.length) {
     return (
       <ol>
-        {props.loadedFoods}
+        {loadedFoods}
       </ol>
     )
-  } else if (props.notFound) {
+  } else if (notFound) {
     return <h3>No results found.</h3>
   } else {
     return <h3>Start your search.</h3>
   }
+
 }
 
 export default Results;
