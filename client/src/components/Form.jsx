@@ -36,10 +36,11 @@ const Form = () => {
 
   const removeFieldset = (e, fieldsetNum) => { //TODO: Not removing properly
     let fieldsetsCopy = fieldsets.slice();
-    fieldsetsCopy.splice(fieldsetNum, 1); 
+    if (fieldsetNum !== -1) fieldsetsCopy.splice(fieldsetNum, 1); 
     setFieldsets(fieldsetsCopy)
   }
 
+  //TODO: Handle data with '--' value
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true)
@@ -47,7 +48,7 @@ const Form = () => {
     const fieldsetsCopy = fieldsets;
     for (let i = 0; i < fieldsetsCopy.length; i++) {
       const fieldsetCopy = fieldsetsCopy[i];
-      let nutrient = fieldsetCopy.nutrient;
+      let nutrient = fieldsetCopy.nutrient.toLowerCase();
       let min = fieldsetCopy.min;
       let max = fieldsetCopy.max;
       if (!nutrient) continue; 

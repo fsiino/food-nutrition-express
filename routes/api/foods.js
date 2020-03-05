@@ -19,10 +19,12 @@ router.get('/:ndbno', (req, res) => {
 
 router.get('/:nutrient/min=:min?&max=:max?', (req, res) => {
   let nutrient = req.params.nutrient;
+  // Creates a regex of: /^SomeStringToFind$/i since this was not working in the query itself.
+  let nutrientRegex = new RegExp(["^", nutrient, "$"].join(""), "i");
   let min = req.params.min 
   let max = req.params.max 
   Food.find({
-    "nutrients": { $elemMatch: { nutrient: nutrient, value: { $gt: min, $lte: max } } }
+    "nutrients": { $elemMatch: { nutrient: nutrientRegex, value: { $gt: min, $lte: max } } }
   })
     .sort({ name: 1 })
     .then(foods => res.json(foods))
