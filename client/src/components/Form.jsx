@@ -59,12 +59,11 @@ const Form = () => {
       if (!nutrient) continue; 
       if (!min) min = 0;
       if (!max) max = 1000;
-      query += `nutrient=${nutrient}&min=${min}&max=${max}`
+      query += `nutrient=${nutrient}&min=${min}&max=${max}/`
     }  
-    // console.log(query)
     // Prefer axios.get over fetch for dynamic variables during async.
     console.log(query)
-    axios.get(`/api/foods/${query}`)
+    axios.get(`/api/foods/search/${query}`)
       .then(res => {
         if (res.data.length) {
           setResults(res.data)
