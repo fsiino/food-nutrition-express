@@ -45,10 +45,11 @@ const Form = () => {
     setFieldsets(fieldsetsCopy)
   }
 
+  //TODO: Test: ash 0-1, protein 0-0.01, alcohol 0-40, carb 0-0.03
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true)
-    e.preventDefault();
+    let query = '';
     const fieldsetsCopy = fieldsets;
     for (let i = 0; i < fieldsetsCopy.length; i++) {
       const fieldsetCopy = fieldsetsCopy[i];
@@ -58,20 +59,23 @@ const Form = () => {
       if (!nutrient) continue; 
       if (!min) min = 0;
       if (!max) max = 1000;
-      // Prefer axios.get over fetch for dynamic variables during async.
-      axios.get(`/api/foods/${nutrient}?min=${min}&max=${max}`)
-        .then(res => {
-          if (res.data.length) {
-            setResults(res.data)
-            setLoading(false)
-          } else {
-            setResults([])
-            setLoading(false)
-            setNotFound(true)
-          }
-        })
-        .catch(err => setErrors(...errors))
-     }  
+      query += `nutrient=${nutrient}&min=${min}&max=${max}/`
+    }  
+    // console.log(query)
+    // Prefer axios.get over fetch for dynamic variables during async.
+    console.log(query)
+    axios.get(`/api/foods/${query}`)
+      .then(res => {
+        if (res.data.length) {
+          setResults(res.data)
+          setLoading(false)
+        } else {
+          setResults([])
+          setLoading(false)
+          setNotFound(true)
+        }
+      })
+      .catch(err => setErrors(...err))
   }
 
   const handleChange = (field, fieldsetNum) => {

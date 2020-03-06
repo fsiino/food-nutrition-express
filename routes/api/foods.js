@@ -17,8 +17,9 @@ router.get('/:ndbno', (req, res) => {
     .catch(err => res.status(404).json({ nofoodfound: 'No food found with that id' }))
 });
 
-//TODO: Test: http://localhost:5000/api/foods/nutrient=ash&min=0&max=1/nutrient=protein&min=0&max=0.01/nutrient=alcohol&min=0&max=40&nutrient=carb&min=0&max=0.03
+//TODO: Test: http://localhost:5000/api/foods/nutrient=ash&min=0&max=1/nutrient=protein&min=0&max=0.01/nutrient=alcohol&min=0&max=40/nutrient=carb&min=0&max=0.03
 router.get('/*', (req, res) => {
+  console.log(req.params[0].split('/'))
   let promise = new Promise(res => {
     const fieldsets = req.params[0].split('/')
     const parsedSets = fieldsets.map(fieldset => fieldset.split('&'))
@@ -31,7 +32,7 @@ router.get('/*', (req, res) => {
       }
       newFieldsets.push(obj)
     }
-    let queries = newFieldsets.map((newFieldset, idx) => {
+    let queries = newFieldsets.slice(1,newFieldsets.length-1).map((newFieldset, idx) => {
       let query = {
         nutrients: {
           $elemMatch: {
