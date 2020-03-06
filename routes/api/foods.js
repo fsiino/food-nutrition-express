@@ -3,23 +3,22 @@ const router = express.Router();
 
 const Food = require("../../models/Food");
 
-router.get('/', (req, res) => {
+router.get('/all', (req, res) => {
   Food.find()
     .sort({ name: 1 })
     .then(foods => res.json(foods))
     .catch(err => res.status(404).json({ nofoodsfound: 'No foods found' }))
 });
 
-router.get('/:ndbno', (req, res) => {
+router.get('/id=:ndbno', (req, res) => {
   Food.find({ ndbno: req.params.ndbno })
     .sort({ name: 1 })
     .then(food => res.json(food))
     .catch(err => res.status(404).json({ nofoodfound: 'No food found with that id' }))
 });
 
-//TODO: Test: http://localhost:5000/api/foods/nutrient=ash&min=0&max=1/nutrient=protein&min=0&max=0.01/nutrient=alcohol&min=0&max=40/nutrient=carb&min=0&max=0.03
-router.get('/*', (req, res) => {
-  console.log(req.params[0].split('/'))
+//Test: http://localhost:5000/api/foods/search/nutrient=ash&min=0&max=1/nutrient=protein&min=0&max=0.01/nutrient=alcohol&min=0&max=40/nutrient=carb&min=0&max=0.03
+router.get('/search/*', (req, res) => {
   let promise = new Promise(res => {
     const fieldsets = req.params[0].split('/')
     const parsedSets = fieldsets.map(fieldset => fieldset.split('&'))
@@ -30,9 +29,9 @@ router.get('/*', (req, res) => {
         const pair = parsedSets[i][j].split('=')
         obj[pair[0]] = pair[1]
       }
-      newFieldsets.push(obj)
+      if (obj['nutrient']) newFieldsets.push(obj)
     }
-    let queries = newFieldsets.slice(1,newFieldsets.length-1).map((newFieldset, idx) => {
+    let queries = newFieldsets.slice(1).map(newFieldset => {
       let query = {
         nutrients: {
           $elemMatch: {
@@ -57,10 +56,10 @@ router.get('/*', (req, res) => {
     })
       .sort({ name: 1 })
       .then(foods => res.json(foods))
-      .catch(err => res.status(404).json({ nofoodsfound: 'No foods found with the specified ingredient parameter(s)' }));
+      .catch(() => res.status(404).json({ nofoodsfound: 'No foods found with the specified ingredient parameter(s)' }));
   })
-    .catch(err => console.log(err))
-
+  .catch(err => console.log(err))
+  
 });
 
 module.exports = router;
