@@ -40,3 +40,8 @@ input[type=submit], button {
   margin: 2px;
   border: 1px solid #696969;
 }
+
+.results-container {
+  width: 75%;
+  margin: auto;
+}

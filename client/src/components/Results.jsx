@@ -13,7 +13,12 @@ const Results = ({loadedFoods, isLoading, notFound, errors}) => {
   } else if (notFound) {
     return <h3>No results found.</h3>
   } else {
-    return <h3>Results will display here.</h3>
+    return (
+      <>
+        <h4 style={{ color: "red" }}>{errors}</h4>
+        <h3>Results will display here.</h3>
+      </>
+    )
   }
 //TODO: make results a grid, food on left, nutrients on right
 }

@@ -25,6 +25,23 @@ const Form = () => {
     setNotFound(false)
   }
 
+  const fetchAllFoods = e => {
+    e.preventDefault();
+    setLoading(true)
+    axios.get(`/api/foods/all`)
+      .then(res => {
+        if (res.data.length) {
+          setResults(res.data)
+          setLoading(false)
+        } else {
+          setResults([])
+          setLoading(false)
+          setNotFound(true)
+        }
+      })
+      .catch(err => setErrors(...err))
+  }
+
   const clearAllFields = () => {
     let fieldsetsCopy = fieldsets.slice(0,1);
     for (let key in fieldsetsCopy[0]) fieldsetsCopy[0][key] = '';
@@ -62,7 +79,6 @@ const Form = () => {
       query += `nutrient=${nutrient}&min=${min}&max=${max}/`
     }  
     // Prefer axios.get over fetch for dynamic variables during async.
-    console.log(query)
     axios.get(`/api/foods/search/${query}`)
       .then(res => {
         if (res.data.length) {
@@ -138,10 +154,11 @@ const Form = () => {
         <div className="buttons-wrapper">
           <input type="submit" value="Submit Query" /> 
           <button onClick={handleClearResults}>Clear Results</button>
+          <button onClick={fetchAllFoods}>Fetch All Foods</button>
           {/* TODO: Return key doesnt submit, but rather hits New filter btn */}
         </div>
       </form>
-      <div>
+      <div className="results-container">
         <Results loadedFoods={loadedFoods} isLoading={isLoading} notFound={notFound} errors={errors} />
       </div>
     </>
