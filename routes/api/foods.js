@@ -31,7 +31,7 @@ router.get('/search/*', (req, res) => {
       }
       if (obj['nutrient']) newFieldsets.push(obj)
     }
-    let queries = newFieldsets.slice(1).map(newFieldset => {
+    let queries = newFieldsets.map(newFieldset => {
       let query = {
         nutrients: {
           $elemMatch: {
