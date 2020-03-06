@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../style/style.css';
 import axios from 'axios';
 import Results from './Results';
@@ -9,63 +9,63 @@ const Form = () => {
     min: '',
     max: ''
   }
-  const [fieldsets, setFieldsets] = useState([newFieldset])
-  const [results, setResults] = useState([])
-  const [notFound, setNotFound] = useState(false)
-  const [isLoading, setLoading] = useState(false)
-  const [errors, setErrors] = useState([])
+  const [fieldsets, setFieldsets] = useState([newFieldset]);
+  const [results, setResults] = useState([]);
+  const [notFound, setNotFound] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const [errors, setErrors] = useState([]);
 
   const handleEnterKey = e => (
     e.key === 'Enter' ? handleSubmit(e) : null
-  )
+  );
 
   const handleClearResults = e => {
     e.preventDefault();
-    setResults([])
-    setNotFound(false)
-  }
+    setResults([]);
+    setNotFound(false);
+  };
 
   const fetchAllFoods = e => {
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
     axios.get(`/api/foods/all`)
       .then(res => {
         if (res.data.length) {
-          setResults(res.data)
-          setLoading(false)
+          setResults(res.data);
+          setLoading(false);
         } else {
-          setResults([])
-          setLoading(false)
-          setNotFound(true)
+          setResults([]);
+          setLoading(false);
+          setNotFound(true);
         }
       })
-      .catch(err => setErrors(...err))
-  }
+      .catch(err => setErrors(...err));
+  };
 
   const clearAllFields = () => {
     let fieldsetsCopy = fieldsets.slice(0,1);
     for (let key in fieldsetsCopy[0]) fieldsetsCopy[0][key] = '';
-    setFieldsets([...fieldsetsCopy])
-    setErrors([])
-  }
+    setFieldsets([...fieldsetsCopy]);
+    setErrors([]);
+  };
 
   const addNewFieldset = (e) => {
     e.preventDefault();
     let fieldsetsCopy = fieldsets.slice();
-    fieldsetsCopy.push(newFieldset)
-    setFieldsets(fieldsetsCopy)
-  }
+    fieldsetsCopy.push(newFieldset);
+    setFieldsets(fieldsetsCopy);
+  };
 
   const removeFieldset = (e, fieldsetNum) => { //TODO: Not removing or inputting properly
     let fieldsetsCopy = fieldsets.slice();
     if (fieldsetNum !== -1) fieldsetsCopy.splice(fieldsetNum, 1); 
-    setFieldsets(fieldsetsCopy)
-  }
+    setFieldsets(fieldsetsCopy);
+  };
 
-  //TODO: Test: ash 0-1, protein 0-0.01, alcohol 0-40, carb 0-0.03
+  //Test: ash 0-1, protein 0-0.01, alcohol 0-40, carb 0-0.03
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
     let query = '';
     const fieldsetsCopy = fieldsets;
     for (let i = 0; i < fieldsetsCopy.length; i++) {
@@ -78,20 +78,19 @@ const Form = () => {
       if (!max) max = 1000;
       query += `nutrient=${nutrient}&min=${min}&max=${max}/`
     }  
-    // Prefer axios.get over fetch for dynamic variables during async.
     axios.get(`/api/foods/search/${query}`)
       .then(res => {
         if (res.data.length) {
-          setResults(res.data)
-          setLoading(false)
+          setResults(res.data);
+          setLoading(false);
         } else {
-          setResults([])
-          setLoading(false)
-          setNotFound(true)
+          setResults([]);
+          setLoading(false);
+          setNotFound(true);
         }
       })
-      .catch(err => setErrors(...err))
-  }
+      .catch(err => setErrors(err));
+  };
 
   const handleChange = (field, fieldsetNum) => {
     return e => {
@@ -99,7 +98,7 @@ const Form = () => {
       fieldsetsCopy[fieldsetNum][field] = e.target.value;
       setFieldsets(fieldsetsCopy)
     }
-  }
+  };
 
   const loadedFoods = (
     results ? 
@@ -110,7 +109,7 @@ const Form = () => {
         </ul>
       </li>) 
     : null
-  )
+  );
 
   return (
     <>
@@ -155,15 +154,13 @@ const Form = () => {
           <input type="submit" value="Submit Query" /> 
           <button onClick={handleClearResults}>Clear Results</button>
           <button onClick={fetchAllFoods}>Fetch All Foods</button>
-          {/* TODO: Return key doesnt submit, but rather hits New filter btn */}
         </div>
       </form>
       <div className="results-container">
         <Results loadedFoods={loadedFoods} isLoading={isLoading} notFound={notFound} errors={errors} />
       </div>
     </>
-  )
-
-}
+  );
+};
 
 export default Form;
