@@ -38,7 +38,7 @@ router.get('/search/*', (req, res) => {
             nutrient: "",
             value: {
               $gt: 0,
-              $lte: 100
+              $lte: Infinity
             }
           }
         }
