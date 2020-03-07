@@ -10,6 +10,10 @@ const Results = ({loadedFoods, isLoading, notFound, errors}) => {
   } else if (loadedFoods.length > 0) {
     return (
       <>
+        <div className="header-grid-container">
+          <div className="header-grid-food">Food</div>
+          <div className="header-grid-nutrients">Nutrients</div>
+        </div>  
         {loadedFoods}
       </>
     )

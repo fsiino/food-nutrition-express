@@ -103,32 +103,20 @@ const Form = () => {
     results ? 
       results.map((result, i) => (
         <div key={`${i}1`} className="outter-grid-container">
-          <div className="grid-food">
+          <div className="outter-grid-food">
             {result.name}
           </div>
-          <div className="grid-nutrient">
+          <div className="outter-grid-nutrients-values">
             {result.nutrients.map((nutrient, j) => (
-              <>
-                <ul>
-                  <li key={`${j}1`}>
-                    {nutrient.nutrient}
-                  </li>
-                </ul>
-              </>
-            )
-            )}
-          </div>
-          <div className="grid-value">
-            {result.nutrients.map((nutrient, j) => (
-              <>
-                <ul>
-                  <li key={`${j}1`}>
-                    {nutrient.value} grams
-                  </li>
-                </ul>
-              </>
-            )
-            )}
+              <div key={`${j}1`} className="inner-grid-container">
+                <div className="inner-grid-nutrient">
+                  {nutrient.nutrient}
+                </div>
+                <div className="inner-grid-value">
+                  {nutrient.value} grams
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       ))
