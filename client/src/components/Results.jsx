@@ -20,7 +20,6 @@ const Results = ({loadedFoods, isLoading, notFound, errors}) => {
       </>
     )
   }
-//TODO: make results a grid, food on left, nutrients on right
 }
 
 export default Results;
