@@ -7,7 +7,7 @@ const Results = ({loadedFoods, isLoading, notFound, errors}) => {
         Loading...
       </h3>
     )
-  } else if (loadedFoods.length > 0) {
+  } else if (loadedFoods.length) {
     return (
       <>
         <div className="header-grid-container">
