@@ -19,5 +19,6 @@ Create a backend Rest API with an endpoint URL called by the user to find foods 
 
 ### 
 
-
 ## Technical Challenges
+
+## Code Snippets

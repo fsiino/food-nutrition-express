@@ -17,9 +17,8 @@ router.get('/id=:ndbno', (req, res) => {
     .catch(err => res.status(404).json({ nofoodfound: 'No food found with that id' }))
 });
 
-//Test: http://localhost:5000/api/foods/search/nutrient=ash&min=0&max=1/nutrient=protein&min=0&max=0.01/nutrient=alcohol&min=0&max=40/nutrient=carb&min=0&max=0.03
 router.get('/search/*', (req, res) => {
-  let promise = new Promise(res => {
+  function parseQuery() {
     const fieldsets = req.params[0].split('/')
     const parsedSets = fieldsets.map(fieldset => fieldset.split('&'))
     let newFieldsets = [];
@@ -48,18 +47,17 @@ router.get('/search/*', (req, res) => {
       query.nutrients.$elemMatch.value.$lte = newFieldset.max;
       return query;
     })
-    res(queries)
-  })
-  promise.then(queries => {
-    Food.find({
-      $and: queries
+    return Promise.resolve(queries);
+  }
+    parseQuery().then(queries => {
+      Food.find({
+        $and: queries
+      })
+        .sort({ name: 1 })
+        .then(foods => res.json(foods))
+        .catch(err => res.status(404).json({ nofoodsfound: 'No foods found with the specified ingredient parameter(s)' }));
     })
-      .sort({ name: 1 })
-      .then(foods => res.json(foods))
-      .catch(err => res.status(404).json({ nofoodsfound: 'No foods found with the specified ingredient parameter(s)' }));
-  })
-  .catch(err => console.log(`There was an error: ${err}`))
-  
+    .catch(err => console.log(`There was an error: ${err}`))
 });
 
 module.exports = router;
