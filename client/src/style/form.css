@@ -39,4 +39,5 @@ input[type=submit], button {
   padding: 2px;
   margin: 2px;
   border: 1px solid #696969;
+  width: 130px;
 }

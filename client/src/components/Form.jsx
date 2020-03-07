@@ -55,11 +55,13 @@ const Form = () => {
     setFieldsets(fieldsetsCopy);
   };
 
-  const removeFieldset = (e, fieldsetNum) => { //TODO: Not removing or inputting properly
+  const removeFieldset = (e) => { 
     e.preventDefault();
-    let fieldsetsCopy = fieldsets.slice();
-    fieldsetsCopy.splice(fieldsetNum, 1); 
-    setFieldsets(fieldsetsCopy);
+    if (fieldsets.length > 1) {
+      let fieldsetsCopy = fieldsets.slice();
+      fieldsetsCopy.pop(); 
+      setFieldsets(fieldsetsCopy);
+    }
   };
 
   const handleSubmit = (e) => {
@@ -126,7 +128,10 @@ const Form = () => {
   return (
     <>
       <div className="buttons-wrapper">
-        <button onClick={clearAllFields}>Remove All Fieldsets</button>
+        <button onClick={clearAllFields}>❌ Remove All Fieldsets</button>
+        <button onClick={addNewFieldset}>➕ Add Another Fieldset</button>
+        <button onClick={removeFieldset}>⛔️ Remove Last Fieldset</button>
+        
       </div>
       <form onSubmit={handleSubmit}>
         <div className="fieldsets-wrapper"> 
@@ -156,16 +161,14 @@ const Form = () => {
                     onKeyPress={handleEnterKey}
                   />
                 </label>
-                {i === 0 ? <button onClick={addNewFieldset}>Add Another Filter</button> : null}
-                {i > 0 ? <input type="submit" onClick={(e, i) => removeFieldset(e,i)} value="Remove Fieldset" /> : null}
               </div>
             )
           })}
         </div>
         <div className="buttons-wrapper">
-          <input type="submit" value="Submit Query" /> 
-          <button onClick={handleClearResults}>Clear Results</button>
-          <button onClick={fetchAllFoods}>Fetch All Foods</button>
+          <input type="submit" value="✔️ Submit Query" /> 
+          <button onClick={handleClearResults}>❌ Clear Results</button>
+          <button onClick={fetchAllFoods}>🍔 Fetch All Foods</button>
         </div>
       </form>
       <div className="results-container">
