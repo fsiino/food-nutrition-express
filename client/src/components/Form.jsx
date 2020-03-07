@@ -100,7 +100,7 @@ const Form = () => {
   };
 
   const loadedFoods = (
-    results ? 
+    results.length > 0 ? 
       results.map((result, i) => (
         <div key={`${i}1`} className="outter-grid-container">
           <div className="outter-grid-food">
