@@ -120,7 +120,7 @@ const Form = () => {
           </div>
         </div>
       ))
-    : null
+    : []
   )
 
   return (
