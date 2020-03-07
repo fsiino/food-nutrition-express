@@ -2,3 +2,21 @@
   width: 75%;
   margin: auto;
 }
+
+.grid-food {
+  grid-area: food;
+}
+.grid-nutrient {
+  grid-area: nutrient;
+}
+.grid-value {
+  grid-area: value;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: 50px 50px 50px;
+  grid-template-rows: auto;
+  grid-template-areas: 
+    "food nutrient value"
+}
