@@ -16,7 +16,7 @@
 
 .outter-grid-nutrients-values {
   grid-area: nutrients-values;
-  border-top-width: 1px;
+  border-top-width: 0;
   border-right-width: 0;
   border-bottom-width: 0;
   border-left-width: 1px;
@@ -63,6 +63,8 @@
   border-left-width: 0;
   border-style: solid;
   border-color: black;
+  padding: 3px;
+  text-align: right;
 }
 
 .inner-grid-container {
