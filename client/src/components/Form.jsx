@@ -29,6 +29,7 @@ const Form = () => {
     setLoading(true);
     axios.get(`/api/foods/all`)
       .then(res => {
+        console.log(res.data)
         if (res.data.length > 0) {
           setResults(res.data);
           setLoading(false);
