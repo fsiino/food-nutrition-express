@@ -38,7 +38,7 @@ const Form = () => {
           setNotFound(true);
         }
       })
-      .catch(err => setErrors(...err));
+      .catch(err => setErrors(err));
   };
 
   const clearAllFields = () => {
@@ -57,11 +57,10 @@ const Form = () => {
 
   const removeFieldset = (e, fieldsetNum) => { //TODO: Not removing or inputting properly
     let fieldsetsCopy = fieldsets.slice();
-    if (fieldsetNum !== -1) fieldsetsCopy.splice(fieldsetNum, 1); 
+    fieldsetsCopy.splice(fieldsetNum, 1); 
     setFieldsets(fieldsetsCopy);
   };
 
-  //Test: ash 0-1, protein 0-0.01, alcohol 0-40, carb 0-0.03
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
