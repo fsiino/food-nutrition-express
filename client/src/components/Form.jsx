@@ -29,7 +29,7 @@ const Form = () => {
     setLoading(true);
     axios.get(`/api/foods/all`)
       .then(res => {
-        if (res.data.length) {
+        if (res.data.length > 0) {
           setResults(res.data);
           setLoading(false);
         } else {
@@ -78,7 +78,7 @@ const Form = () => {
     }  
     axios.get(`/api/foods/search/${query}`)
       .then(res => {
-        if (res.data.length) {
+        if (res.data.length > 0) {
           setResults(res.data);
           setLoading(false);
         } else {

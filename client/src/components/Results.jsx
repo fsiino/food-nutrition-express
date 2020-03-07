@@ -4,7 +4,7 @@ const Results = ({loadedFoods, isLoading, notFound, errors}) => {
 
   if (isLoading) {
     return <h3>Loading...</h3>
-  } else if (loadedFoods.length) {
+  } else if (loadedFoods.length > 0) {
     return (
       <ol>
         {loadedFoods}
