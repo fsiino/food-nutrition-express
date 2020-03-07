@@ -18,7 +18,7 @@ router.get('/id=:ndbno', (req, res) => {
 });
 
 router.get('/search/*', (req, res) => {
-  function parseQuery() {
+  const parseQuery = () => {
     const fieldsets = req.params[0].split('/')
     const parsedSets = fieldsets.map(fieldset => fieldset.split('&'))
     let newFieldsets = [];
