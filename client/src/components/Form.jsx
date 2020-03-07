@@ -119,8 +119,8 @@ const Form = () => {
             ))}
           </div>
         </div>
-      ))
-    : []
+      )
+    ) : []
   )
 
   return (
