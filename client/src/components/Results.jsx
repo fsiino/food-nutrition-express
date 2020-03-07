@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Results = ({ loadedFoods, isLoading, notFound, errors }) => {
+const Results = ({ loadedFoods, isLoading, notFound, errors, fieldsets }) => {
   if (isLoading) {
     return (
       <h3>
@@ -38,3 +38,4 @@ const Results = ({ loadedFoods, isLoading, notFound, errors }) => {
 }
 
 export default Results;
+

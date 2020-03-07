@@ -129,8 +129,8 @@ const Form = () => {
     <>
       <div className="buttons-wrapper">
         <button onClick={clearAllFields}>❌ Remove All Fieldsets</button>
-        <button onClick={addNewFieldset}>➕ Add Another Fieldset</button>
         <button onClick={removeFieldset}>⛔️ Remove Last Fieldset</button>
+        <button onClick={addNewFieldset}>➕ Add Another Fieldset</button>
         
       </div>
       <form onSubmit={handleSubmit}>
@@ -166,13 +166,13 @@ const Form = () => {
           })}
         </div>
         <div className="buttons-wrapper">
-          <input type="submit" value="✔️ Submit Query" /> 
           <button onClick={handleClearResults}>❌ Clear Results</button>
           <button onClick={fetchAllFoods}>🍔 Fetch All Foods</button>
+          <input type="submit" value="✔️ Submit Query" /> 
         </div>
       </form>
       <div className="results-container">
-        <Results loadedFoods={loadedFoods} isLoading={isLoading} notFound={notFound} errors={errors} />
+        <Results loadedFoods={loadedFoods} isLoading={isLoading} notFound={notFound} errors={errors} fieldsets={fieldsets} />
       </div>
     </>
   );
