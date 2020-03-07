@@ -56,6 +56,7 @@ const Form = () => {
   };
 
   const removeFieldset = (e, fieldsetNum) => { //TODO: Not removing or inputting properly
+    e.preventDefault();
     let fieldsetsCopy = fieldsets.slice();
     fieldsetsCopy.splice(fieldsetNum, 1); 
     setFieldsets(fieldsetsCopy);
@@ -100,14 +101,39 @@ const Form = () => {
 
   const loadedFoods = (
     results ? 
-      results.map((result, i) => 
-      <li key={i}>{result.name} 
-        <ul>{result.nutrients.map((nutrient, j) => 
-          <li key={j}>{nutrient.nutrient}: {nutrient.value}{nutrient.unit}</li>)}
-        </ul>
-      </li>) 
+      results.map((result, i) => (
+        <div key={`${i}1`} className="outter-grid-container">
+          <div className="grid-food">
+            {result.name}
+          </div>
+          <div className="grid-nutrient">
+            {result.nutrients.map((nutrient, j) => (
+              <>
+                <ul>
+                  <li key={`${j}1`}>
+                    {nutrient.nutrient}
+                  </li>
+                </ul>
+              </>
+            )
+            )}
+          </div>
+          <div className="grid-value">
+            {result.nutrients.map((nutrient, j) => (
+              <>
+                <ul>
+                  <li key={`${j}1`}>
+                    {nutrient.value} grams
+                  </li>
+                </ul>
+              </>
+            )
+            )}
+          </div>
+        </div>
+      ))
     : null
-  );
+  )
 
   return (
     <>
