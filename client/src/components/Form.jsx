@@ -112,7 +112,7 @@ const Form = () => {
             {result.nutrients.map((nutrient, j) => (
               <div key={`${j}1`} className="inner-grid-container">
                 <div className="inner-grid-nutrient">
-                  {nutrient.nutrient}
+                  {nutrient.nutrient} 
                 </div>
                 <div className="inner-grid-value">
                   {nutrient.value} grams
