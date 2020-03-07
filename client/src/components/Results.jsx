@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Results = ({loadedFoods, isLoading, notFound, errors}) => {
+const Results = ({ loadedFoods, isLoading, notFound, errors }) => {
   if (isLoading) {
     return (
       <h3>

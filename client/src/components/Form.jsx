@@ -29,12 +29,11 @@ const Form = () => {
     setLoading(true);
     axios.get(`/api/foods/all`)
       .then(res => {
-        console.log(res.data)
         if (res.data.length > 0) {
           setResults(res.data);
           setLoading(false);
         } else {
-          setResults([]);
+          setResults('string');
           setLoading(false);
           setNotFound(true);
         }
@@ -101,7 +100,7 @@ const Form = () => {
   };
 
   const loadedFoods = (
-    // results.length > 0 ? 
+    results.length > 0 ? 
       results.map((result, i) => (
         <div key={`${i}1`} className="outter-grid-container">
           <div className="outter-grid-food">
@@ -121,7 +120,7 @@ const Form = () => {
           </div>
         </div>
       )) 
-    // : []
+    : []
   )
 
   return (

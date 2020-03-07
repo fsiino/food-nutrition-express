@@ -56,7 +56,7 @@ router.get('/search/*', (req, res) => {
     })
       .sort({ name: 1 })
       .then(foods => res.json(foods))
-      .catch(() => res.status(404).json({ nofoodsfound: 'No foods found with the specified ingredient parameter(s)' }));
+      .catch(err => res.status(404).json({ nofoodsfound: 'No foods found with the specified ingredient parameter(s)' }));
   })
   .catch(err => console.log(`There was an error: ${err}`))
   
