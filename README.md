@@ -28,7 +28,7 @@ const handleSubmit = (e) => {
   for (let i = 0; i < fieldsetsCopy.length; i++) {
     if (!nutrient) continue; 
     if (!min) min = 0;
-    if (!max) max = 1000;
+    if (!max) max = 99999;
     query += `nutrient=${fieldsetsCopy[i].nutrient.toLowerCase()}&min=${fieldsetsCopy[i].min}&max=${fieldsetsCopy[i].max}/`
   }  
   axios.get(`/api/foods/search/${query}`)
@@ -64,11 +64,11 @@ router.get('/search/*', (req, res) => {
     }
     let queries = newFieldsets.map(newFieldset => {
       let query = { 
-        nutrients: { $elemMatch: { nutrient: "", value: { $gt: 0, $lte: Infinity } } }
+        nutrients: { $elemMatch: { nutrient: "", value: { $gt: 0, $lte: 99999 } } }
       };
       query.nutrients.$elemMatch.nutrient = new RegExp(["", newFieldset.nutrient, ""].join(""), "i");
-      query.nutrients.$elemMatch.value.$gt = newFieldset.min;
-      query.nutrients.$elemMatch.value.$lte = newFieldset.max;
+      query.nutrients.$elemMatch.value.$gt = parseInt(newFieldset.min);
+      query.nutrients.$elemMatch.value.$lte = parseInt(newFieldset.max);
       return query;
     })
     return Promise.resolve(queries);

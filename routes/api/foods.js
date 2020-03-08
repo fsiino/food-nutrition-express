@@ -35,16 +35,16 @@ router.get('/search/*', (req, res) => {
         nutrients: {
           $elemMatch: {
             nutrient: "",
-            value: {
+            gm: {
               $gt: 0,
-              $lte: Infinity
+              $lte: 99999
             }
           }
         }
       };
       query.nutrients.$elemMatch.nutrient = new RegExp(["", newFieldset.nutrient, ""].join(""), "i");
-      query.nutrients.$elemMatch.value.$gt = newFieldset.min;
-      query.nutrients.$elemMatch.value.$lte = newFieldset.max;
+      query.nutrients.$elemMatch.gm.$gt = parseInt(newFieldset.min);
+      query.nutrients.$elemMatch.gm.$lte = parseInt(newFieldset.max);
       return query;
     })
     return Promise.resolve(queries);

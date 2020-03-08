@@ -76,7 +76,7 @@ const Form = () => {
       let max = fieldsetCopy.max;
       if (!nutrient) continue; 
       if (!min) min = 0;
-      if (!max) max = 1000;
+      if (!max) max = 99999; 
       query += `nutrient=${nutrient}&min=${min}&max=${max}/`
     }  
     axios.get(`/api/foods/search/${query}`)
@@ -115,7 +115,7 @@ const Form = () => {
                   {nutrient.nutrient} 
                 </div>
                 <div className="inner-grid-value">
-                  {nutrient.value} grams
+                  {nutrient.gm} grams
                 </div>
               </div>
             ))}
