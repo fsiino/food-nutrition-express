@@ -9,6 +9,9 @@ const App = () => {
     <div className="app-container">
       <Header />
       <Form />
+      <p align="center">
+        <a href="https://github.com/fsiino/food-nutrition-express" target="_blank">Github Repo</a>
+      </p>
     </div>
   );
 }
