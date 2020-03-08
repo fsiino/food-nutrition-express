@@ -106,7 +106,7 @@ const Form = () => {
       results.map((result, i) => (
         <div key={`${i}1`} className="outter-grid-container">
           <div className="outter-grid-food">
-            {result.name}
+            {result.name}, {result.measure}
           </div>
           <div className="outter-grid-nutrients-values">
             {result.nutrients.map((nutrient, j) => (
