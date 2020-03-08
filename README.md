@@ -17,8 +17,10 @@ Create a backend Rest API with an endpoint URL called by the user to find foods 
 * RegExp
 
 ## Screen GIFs
+### Search 
 <img src="https://github.com/fsiino/food-nutrition-express/blob/master/docs/fn-search.gif?raw=true" alt="search">
 
+### Fieldset Buttons
 <img src="https://github.com/fsiino/food-nutrition-express/blob/master/docs/fn-buttons.gif?raw=true" alt="buttons">
 
 ## Code Snippets
