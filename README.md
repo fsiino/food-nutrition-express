@@ -16,6 +16,11 @@ Create a backend Rest API with an endpoint URL called by the user to find foods 
 * Axios
 * RegExp
 
+## Screen GIFs
+<img src="https://github.com/fsiino/food-nutrition-express/blob/master/docs/fn-search.gif?raw=true" alt="search">
+
+<img src="https://github.com/fsiino/food-nutrition-express/blob/master/docs/fn-buttons.gif?raw=true" alt="buttons">
+
 ## Code Snippets
 
 ```js
