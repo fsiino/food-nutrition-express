@@ -43,8 +43,8 @@ router.get('/search/*', (req, res) => {
         }
       };
       query.nutrients.$elemMatch.nutrient = new RegExp(["", newFieldset.nutrient, ""].join(""), "i");
-      query.nutrients.$elemMatch.gm.$gt = parseInt(newFieldset.min);
-      query.nutrients.$elemMatch.gm.$lte = parseInt(newFieldset.max);
+      query.nutrients.$elemMatch.gm.$gt = parseFloat(newFieldset.min);
+      query.nutrients.$elemMatch.gm.$lte = parseFloat(newFieldset.max);
       return query;
     })
     return Promise.resolve(queries);
