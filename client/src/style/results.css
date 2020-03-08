@@ -42,6 +42,10 @@
     "food nutrients-values"
 }
 
+.outter-grid-container:last-child {
+  border-bottom: 1px solid black;
+}
+
 /**/
 
 .inner-grid-nutrient {
