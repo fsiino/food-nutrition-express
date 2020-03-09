@@ -3,7 +3,7 @@
 ### Live Link
 <a href="https://murmuring-river-71654.herokuapp.com/" target="_blank">https://murmuring-river-71654.herokuapp.com/</a>
 
-<img src="https://github.com/fsiino/food-nutrition-express/blob/master/docs/fn-main.png?raw=true" alt="Screenshot">
+<img src="https://github.com/fsiino/food-nutrition-express/blob/master/docs/fn-main.png?raw=true" width="800px" alt="Screenshot">
 
 ## Objective
 Create a backend Rest API with an endpoint URL called by the user to find foods containing nutrients within a specified range in grams. Serve the data over a frontend framework with a user-friendly search interface.
