@@ -10,10 +10,11 @@ const Results = ({ loadedFoods, isLoading, notFound, errors, fieldsets }) => {
   } else if (loadedFoods.length) {
     return (
       <>
+        <p style={{ textAlign: "center", marginBottom: "10px" }}>{loadedFoods.length} results:</p>
         <div className="header-grid-container">
           <div className="header-grid-food">Food</div>
           <div className="header-grid-nutrients">Nutrients</div>
-        </div>  
+        </div>
         {loadedFoods}
       </>
     )
